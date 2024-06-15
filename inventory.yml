@@ -1,0 +1,5 @@
+xray:
+  hosts:
+    209.38.216.57:
+  vars:
+    ansible_user: cibon4ik

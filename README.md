@@ -3,6 +3,7 @@
 ## Prerequisites
 
 - Ansible
+- Golang >= 1.22
 
 ## Setup Fresh Ubuntu 22 Server Playbook
 
@@ -34,3 +35,24 @@ ansible-vault edit secrets.yml
 ```
 
 Cheat: password is mac password
+
+
+# Scripts
+
+## Build binary to create xray configs
+
+```
+cd automation
+go build -o ../bin/automation
+```
+
+## Build xray config from template
+
+1. Check that you create your `secrets.yml` according template in `secrets.template.yml`
+2. Run script to create xray reality config from template in xray folder
+
+```sh
+./bin/automation \
+    -secrets ./secrets.yml \
+    -xray-config-template ./xray/reality_config_simple.template.json \ -xray-config-save ./xray/reality_config_simple.done.json
+```

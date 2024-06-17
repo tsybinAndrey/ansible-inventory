@@ -52,7 +52,8 @@ go build -o ../bin/automation
 2. Run script to create xray reality config from template in xray folder
 
 ```sh
-./bin/automation \
+./bin/automation build-config \
     -secrets ./secrets.yml \
-    -xray-config-template ./xray/reality_config_simple.template.json \ -xray-config-save ./xray/reality_config_simple.done.json
+    -xray-config-template ./xray/reality_config_simple.template.json \
+    -xray-config-save ./xray/reality_config_simple.json
 ```

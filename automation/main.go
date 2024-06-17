@@ -11,7 +11,7 @@ import (
 	"gopkg.in/yaml.v3"
 )
 
-func main() {
+func buildXrayConfigFromTemplate() {
 	var (
 		secretsPath, xrayTemplatePath, xrayConfigPath string
 	)
@@ -81,4 +81,20 @@ func main() {
 	}
 
 	fmt.Printf("Config has been written to %s", xrayConfigPath)
+}
+
+func main() {
+	if len(os.Args) < 2 {
+		fmt.Println("No command passed. Expected command")
+		os.Exit(1)
+	}
+
+	switch os.Args[1] {
+	case "build-config":
+		buildXrayConfigFromTemplate()
+	case "add-user":
+		fmt.Println("Here will be add user command")
+	default:
+		log.Fatal("No command passed. Expected command")
+	}
 }

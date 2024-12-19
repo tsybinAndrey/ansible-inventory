@@ -18,7 +18,7 @@ func buildXrayConfigFromTemplate() {
 
 	flag.StringVar(&secretsPath, "secrets", "./secrets.yml", "path to ansible-vault secrets file")
 	flag.StringVar(&xrayTemplatePath, "xray-config-template", "./xray/reality_config_simple.template.json", "path to xray config template")
-	flag.StringVar(&xrayConfigPath, "xray-config-save", "./xray/reality_config_simple.done.json", "where you want to save finall config")
+	flag.StringVar(&xrayConfigPath, "xray-config-save", "./xray/reality_config_simple.json", "where you want to save finall config")
 
 	cmd := exec.Command("ansible-vault", "view", secretsPath, "--ask-vault-password")
 

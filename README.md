@@ -28,6 +28,11 @@ ansible-playbook -i inventory.yml playbooks/servers.yml --ask-vault-pass
 ansible-playbook -i inventory.yml playbooks/xray.yml --ask-become-pass
 ```
 
+## Configure IPv6 on Server
+
+[Article about IPv6 on Habr](https://habr.com/ru/articles/811487/)
+[Digital Ocean Docs For IPv6](https://docs.digitalocean.com/products/networking/ipv6/how-to/enable/#on-existing-droplets)
+
 ## Edit Secrets
 
 ```

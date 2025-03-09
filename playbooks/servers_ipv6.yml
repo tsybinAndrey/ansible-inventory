@@ -177,7 +177,7 @@
             table: filter
             chain: INPUT
             in_interface: lo
-            jump: DROP
+            jump: ACCEPT
 
         - name: Allow all loopback (lo) outbound traffic
           iptables:
@@ -185,7 +185,7 @@
             table: filter
             chain: OUTPUT
             out_interface: lo
-            jump: DROP
+            jump: ACCEPT
 
         - name: Drop all traffic to ::1/128 that doesn't use lo
           iptables:
@@ -201,7 +201,7 @@
             table: filter
             chain: INPUT
             ctstate: RELATED,ESTABLISHED
-            jump: DROP
+            jump: ACCEPT
 
         - name: Allow inbound ICMPv6
           iptables:
@@ -209,7 +209,7 @@
             table: filter
             chain: INPUT
             protocol: ipv6-icmp
-            jump: DROP
+            jump: ACCEPT
 
         - name: Allow inbound SSH
           iptables:
@@ -218,7 +218,7 @@
             chain: INPUT
             protocol: tcp
             destination_port: 22
-            jump: DROP
+            jump: ACCEPT
 
         - name: Allow inbound HTTP
           iptables:
@@ -227,7 +227,7 @@
             chain: INPUT
             protocol: tcp
             destination_port: 80
-            jump: DROP
+            jump: ACCEPT
 
         - name: Allow inbound HTTPS
           iptables:
@@ -236,7 +236,7 @@
             chain: INPUT
             protocol: tcp
             destination_port: 443
-            jump: DROP
+            jump: ACCEPT
 
         - name: Allow outbound SSH
           iptables:
@@ -245,7 +245,7 @@
             chain: OUTPUT
             protocol: tcp
             destination_port: 22
-            jump: DROP
+            jump: ACCEPT
 
         - name: Allow outbound HTTP
           iptables:
@@ -254,7 +254,7 @@
             chain: OUTPUT
             protocol: tcp
             destination_port: 80
-            jump: DROP
+            jump: ACCEPT
 
         - name: Allow outbound HTTPS
           iptables:
@@ -263,7 +263,7 @@
             chain: OUTPUT
             protocol: tcp
             destination_port: 443
-            jump: DROP
+            jump: ACCEPT
   
         - name: Allow incoming IPv6 traffic on UDP port 123 for chrony
           iptables:
@@ -272,7 +272,7 @@
             chain: INPUT
             protocol: udp
             destination_port: 123
-            jump: DROP
+            jump: ACCEPT
 
         - name: Allow outgoing IPv6 traffic on UDP port 123 for chrony
           iptables:
@@ -281,7 +281,7 @@
             chain: OUTPUT
             protocol: udp
             destination_port: 123
-            jump: DROP
+            jump: ACCEPT
     
     - name: Configure unattended upgrades
       copy:

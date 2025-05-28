@@ -1,0 +1,23 @@
+- name: Restart SSH
+  service:
+    name: ssh
+    state: restarted
+
+- name: Restart chrony service
+  service:
+    name: chrony
+    state: restarted
+
+- name: Save iptables rules to /etc/iptables/rules.v4
+  community.general.iptables_state:
+    ip_version: ipv4
+    table: filter
+    state: saved
+    path: /etc/iptables/rules.v4
+
+- name: Save iptables rules to /etc/iptables/rules.v6
+  community.general.iptables_state:
+    ip_version: ipv6
+    table: filter
+    state: saved
+    path: /etc/iptables/rules.v6

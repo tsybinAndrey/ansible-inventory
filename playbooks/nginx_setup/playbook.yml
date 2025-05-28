@@ -1,0 +1,11 @@
+- name: Setup NGINX with SSL using Certbot on Ubuntu 22.04
+  hosts: xray
+  become: yes
+  roles:
+    - nginx
+  vars:
+    domain: cibon4ik.xyz
+    certbot_email: cibon4ik@gmail.com
+    listen: 127.0.0.1:8433
+  vars_files:
+    - vars/secrets.yml

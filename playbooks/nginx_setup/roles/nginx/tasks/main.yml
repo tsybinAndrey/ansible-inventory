@@ -1,0 +1,60 @@
+- name: Update apt cache
+  apt:
+    update_cache: yes
+
+- name: Install NGINX
+  apt:
+    name: nginx
+    state: present
+
+# What does that mean? I don't use ufw
+# - name: Ensure UFW allows 'Nginx Full'
+#   ufw:
+#     rule: allow
+#     name: 'Nginx Full'
+
+- name: Install Certbot and NGINX plugin
+  apt:
+    name:
+      - certbot
+      - python3-certbot-nginx
+    state: present
+
+- name: Copy NGINX config
+  template:
+    src: nginx.conf.j2
+    dest: /etc/nginx/sites-available/{{ domain }}
+  notify: Reload NGINX
+
+- name: Enable site
+  file:
+    src: /etc/nginx/sites-available/{{ domain }}
+    dest: /etc/nginx/sites-enabled/{{ domain }}
+    state: link
+    force: yes
+
+- name: Remove default site
+  file:
+    path: /etc/nginx/sites-enabled/default
+    state: absent
+
+- name: Obtain SSL certificate
+  command: >
+    certbot --nginx -n --agree-tos --redirect
+    --email {{ certbot_email }}
+    -d {{ domain }}
+
+- name: Setup cron job for Certbot renew
+  cron:
+    name: "Renew Let's Encrypt certificates"
+    job: "certbot renew --quiet"
+    minute: "0"
+    hour: "3"
+
+- name: Copy NGINX config with reality settings
+  template:
+    src: playbooks/nginx_setup/roles/nginx/templates/nginx_reality.conf.j2
+    dest: /etc/nginx/sites-available/{{ domain }}
+  notify: Reload NGINX
+
+# TODO xray update config and reload

@@ -11,10 +11,10 @@ server {
 
 server {
     listen 127.0.0.1:8443 ssl http2 proxy_protocol;
-    server_name { domain }};
+    server_name {{ domain }};
 
-    ssl_certificate /etc/letsencrypt/live/{ domain }}/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/{ domain }}/privkey.pem;
+    ssl_certificate /etc/letsencrypt/live/{{ domain }}/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/{{ domain }}/privkey.pem;
 
     ssl_protocols TLSv1.2 TLSv1.3;
     ssl_prefer_server_ciphers on;

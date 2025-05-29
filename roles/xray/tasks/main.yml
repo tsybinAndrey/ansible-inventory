@@ -1,0 +1,35 @@
+- name: Check if Xray is already installed
+  ansible.builtin.stat:
+    path: "{{ xray_binary_path }}"
+  register: xray_installed
+
+- name: Download the Xray install script
+  ansible.builtin.get_url:
+    url: "{{ xray_install_script_url }}"
+    dest: "{{ xray_install_script_dest }}"
+    mode: '0755'
+  when: not xray_installed.stat.exists
+
+- name: Run the Xray install script
+  ansible.builtin.command: "bash -c {{ xray_install_script_dest }} @ install"
+  when: not xray_installed.stat.exists
+
+- name: Clean up the Xray install script
+  ansible.builtin.file:
+    path: "{{ xray_install_script_dest }}"
+    state: absent
+  when: not xray_installed.stat.exists
+
+- name: Copy XRay config with reality settings
+  template:
+    src: templates/reality.conf.j2
+    dest: /usr/local/etc/xray/config.json
+    owner: root
+    group: root
+    mode: '0644'
+  notify: Restart XRAY
+
+- name: Restart XRAY
+  service:
+    name: xray
+    state: restarted

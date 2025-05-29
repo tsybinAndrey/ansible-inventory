@@ -18,27 +18,27 @@
       - chrony
     state: present
 
-- name: "Create user {{ server_username }} with root access and ssh login"
-  ansible.builtin.user:
-    name: "{{ server_username }}"
-    state: present
-    groups: sudo
-    shell: /bin/bash
-    password: "{{ server_password | password_hash('sha512') }}"
+# - name: "Create user {{ server_username }} with root access and ssh login"
+#   ansible.builtin.user:
+#     name: "{{ server_username }}"
+#     state: present
+#     groups: sudo
+#     shell: /bin/bash
+#     password: "{{ server_password | password_hash('sha512') }}"
 
-- name: "Set authorized key for user {{ server_username }}"
-  authorized_key:
-    user: "{{ server_username }}"
-    state: present
-    key: "{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
-    manage_dir: true
+# - name: "Set authorized key for user {{ server_username }}"
+#   authorized_key:
+#     user: "{{ server_username }}"
+#     state: present
+#     key: "{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
+#     manage_dir: true
 
-- name: Disable root ssh login
-  lineinfile:
-    path: /etc/ssh/sshd_config
-    regexp: '^PermitRootLogin'
-    line: 'PermitRootLogin no'
-  notify: Restart SSH
+# - name: Disable root ssh login
+#   lineinfile:
+#     path: /etc/ssh/sshd_config
+#     regexp: '^PermitRootLogin'
+#     line: 'PermitRootLogin no'
+#   notify: Restart SSH
 
 - name: Setup iptables rules
   notify: Save iptables rules to /etc/iptables/rules.v4

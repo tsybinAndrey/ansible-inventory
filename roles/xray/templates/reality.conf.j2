@@ -40,10 +40,10 @@
                 "security": "reality",
                 "realitySettings": {
                     "show": true,
-                    "dest": "{{ listen }}",
-                    "xver": 1,
+                    "dest": "{{ dest }}",
+                    "xver": 0,
                     "serverNames": [
-                        "www.{{ domain }}", "{{ domain }}"
+                        "www.{{ reality_domain }}", "{{ reality_domain }}"
                     ],
                     "privateKey": "{{ xray.reality.privateKey }}",
                     "minClientVer": "",

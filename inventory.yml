@@ -1,5 +1,5 @@
 xray:
   hosts:
-    92.51.45.145:
+    157.230.113.16:
   vars:
     ansible_user: root

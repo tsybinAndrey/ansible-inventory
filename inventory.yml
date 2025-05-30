@@ -1,5 +1,5 @@
 xray:
   hosts:
-    92.51.45.145:
+    y.cibon4ik.xyz:
   vars:
     ansible_user: root

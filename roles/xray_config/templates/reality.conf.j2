@@ -2,6 +2,11 @@
     "log": {
         "loglevel": "info"
     },
+    "metrics": {
+        "tag": "Metrics",
+        "listen": "127.0.0.1:11111"
+    },
+    "stats": {},
     "routing": {
         "domainStrategy": "IPIfNonMatch",
         "rules": [
@@ -27,7 +32,7 @@
             "port": 443,
             "protocol": "vless",
             "settings": {
-                "clients": [],
+                "clients": {{ clients | to_nice_json(indent=4) }},
                 "decryption": "none"
             },
             "streamSettings": {
@@ -35,16 +40,16 @@
                 "security": "reality",
                 "realitySettings": {
                     "show": true,
-                    "dest": "www.google.com:443",
-                    "xver": 0,
+                    "dest": "{{ dest }}",
+                    "xver": {{ xver }},
                     "serverNames": [
-                        "www.google.com", "google.com"
+                        "www.{{ reality_domain }}", "{{ reality_domain }}"
                     ],
-                    "privateKey": "put your key here",
+                    "privateKey": "{{ xray.reality.privateKey }}",
                     "minClientVer": "",
                     "maxClientVer": "",
                     "maxTimeDiff": 0,
-                    "shortIds": []
+                    "shortIds": ["{{ xray.reality.shortId }}"]
                 }
             },
             "sniffing": {
@@ -71,8 +76,17 @@
         "levels": {
             "0": {
                 "handshake": 3,
-                "connIdle": 180
+                "connIdle": 180,
+                "statsUserUplink": true,
+                "statsUserDownlink": true,
+                "statsUserOnline": true
             }
+        },
+        "system": {
+            "statsInboundUplink": true,
+            "statsInboundDownlink": true,
+            "statsOutboundUplink": true,
+            "statsOutboundDownlink": true
         }
     }
 }

@@ -1,0 +1,46 @@
+- name: Update apt cache
+  apt:
+    update_cache: yes
+
+- name: Install NGINX
+  apt:
+    name: nginx
+    state: present
+
+- name: Install Certbot and NGINX plugin
+  apt:
+    name:
+      - certbot
+      - python3-certbot-nginx
+    state: present
+
+- name: Copy NGINX config
+  template:
+    src: nginx.conf.j2
+    dest: /etc/nginx/sites-available/{{ domain }}
+  notify: Restart NGINX
+
+- name: Enable site
+  file:
+    src: /etc/nginx/sites-available/{{ domain }}
+    dest: /etc/nginx/sites-enabled/{{ domain }}
+    state: link
+    force: yes
+
+- name: Remove default site
+  file:
+    path: /etc/nginx/sites-enabled/default
+    state: absent
+
+- name: Obtain SSL certificate
+  command: >
+    certbot --nginx -n --agree-tos --redirect
+    --email {{ certbot_email }}
+    -d {{ domain }}
+
+- name: Setup cron job for Certbot renew
+  cron:
+    name: "Renew Let's Encrypt certificates"
+    job: "certbot renew --quiet"
+    minute: "0"
+    hour: "3"

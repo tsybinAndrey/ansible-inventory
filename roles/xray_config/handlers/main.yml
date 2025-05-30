@@ -1,0 +1,9 @@
+- name: Restart XRAY
+  service:
+    name: xray
+    state: restarted
+
+- name: Restart NGINX
+  service:
+    name: nginx
+    state: restarted

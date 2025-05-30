@@ -19,17 +19,3 @@
     path: "{{ xray_install_script_dest }}"
     state: absent
   when: not xray_installed.stat.exists
-
-- name: Copy XRay config with reality settings
-  template:
-    src: templates/reality.conf.j2
-    dest: /usr/local/etc/xray/config.json
-    owner: root
-    group: root
-    mode: '0644'
-  notify: Restart XRAY
-
-- name: Restart XRAY
-  service:
-    name: xray
-    state: restarted

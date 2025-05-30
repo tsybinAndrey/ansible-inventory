@@ -1,0 +1,15 @@
+- name: Copy NGINX config with reality settings
+  template:
+    src: templates/nginx_sni.conf.j2
+    dest: /etc/nginx/sites-available/{{ domain }}
+  notify: Restart NGINX
+  when: config_type is defined and config_type == "sni"
+
+- name: Copy XRay config with reality settings
+  template:
+    src: templates/reality.conf.j2
+    dest: /usr/local/etc/xray/config.json
+    owner: root
+    group: root
+    mode: '0644'
+  notify: Restart XRAY

@@ -1,19 +1,32 @@
 - name: Setup NGINX with SSL using Certbot on Ubuntu 22.04
   hosts: xray
   roles:
-    # - ubuntu
+    - ubuntu
+    - nginx
     - xray
+    - xray_config
   vars:
     # nginx
-    domain: google.com
+    domain: y.cibon4ik.xyz
     certbot_email: cibon4ik@gmail.com
     listen: 127.0.0.1:8433
 
-    # xray
-    dest: www.google.com:443
-    reality_domain: google.com
+    # xray install config
     xray_install_script_url: "https://github.com/XTLS/Xray-install/raw/main/install-release.sh"
     xray_install_script_dest: "/tmp/install-release.sh"
     xray_binary_path: "/usr/local/bin/xray"
+
+    # xray reality default
+    # xver: 0
+    # dest: www.google.com:443
+    # reality_domain: google.com
+    # config_type: reality
+
+    # xray reality sni
+    xver: 1
+    dest: 127.0.0.1:8443
+    reality_domain: y.cibon4ik.xyz
+    config_type: sni
+
   vars_files:
     - vars/secrets.yml

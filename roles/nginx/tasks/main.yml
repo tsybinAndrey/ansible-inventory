@@ -44,15 +44,3 @@
     job: "certbot renew --quiet"
     minute: "0"
     hour: "3"
-
-- name: Copy NGINX config with reality settings
-  template:
-    src: templates/nginx_reality.conf.j2
-    dest: /etc/nginx/sites-available/{{ domain }}
-  notify: Restart NGINX
-
-- name: Copy XRay config with reality settings
-  template:
-    src: templates/reality_sni.conf.j2
-    dest: /usr/local/etc/xray/config.json
-  notify: Restart XRAY
